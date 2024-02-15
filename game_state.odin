@@ -18,6 +18,8 @@ GameState :: struct{
     seconds: int,
     miliseconds: int,
     score: int,
+
+    square_correct: rl.Sound,
 }
 
 game_state_update :: proc(gstate: GameState) -> GameState{
@@ -27,18 +29,26 @@ game_state_update :: proc(gstate: GameState) -> GameState{
         if rl.IsKeyPressed(.D) && gstate.selected_square == 0{
             gstate.selected_square = int(rand.int31_max(4))
             gstate.score += 1
+            
+            rl.PlaySound(gstate.square_correct)
         }
         if rl.IsKeyPressed(.F) && gstate.selected_square == 1{
             gstate.selected_square = int(rand.int31_max(4))
             gstate.score += 1
+
+            rl.PlaySound(gstate.square_correct)
         }
         if rl.IsKeyPressed(.J) && gstate.selected_square == 2{
             gstate.selected_square = int(rand.int31_max(4))
             gstate.score += 1
+
+            rl.PlaySound(gstate.square_correct)
         }
         if rl.IsKeyPressed(.K) && gstate.selected_square == 3{
             gstate.selected_square = int(rand.int31_max(4))
             gstate.score += 1
+
+            rl.PlaySound(gstate.square_correct)
         }
 
         gstate.miliseconds -= 1

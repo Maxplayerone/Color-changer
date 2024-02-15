@@ -37,6 +37,7 @@ atoi_buf :: proc(buf: []byte) -> int{
 
 main :: proc(){
     rl.InitWindow(WIDTH, HEIGHT, "color changer")
+    rl.InitAudioDevice()
     defer rl.CloseWindow()
     rl.SetTargetFPS(60)
 
@@ -47,14 +48,14 @@ main :: proc(){
         score = 0,
         square_size = 100,
         empty_void = (WIDTH - (4 * 100)) / 5,
-        seconds = 5,
+        seconds = 10,
         miliseconds = 60,
+        square_correct = rl.LoadSound("correct_square.wav"),
     }
 
     end_state := EndState{}
 
     cur_state := CurState.Game
-
     for !rl.WindowShouldClose(){
         rl.BeginDrawing()
         defer rl.EndDrawing()
