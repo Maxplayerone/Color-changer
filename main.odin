@@ -51,6 +51,7 @@ main :: proc(){
         seconds = 10,
         miliseconds = 60,
         square_correct = rl.LoadSound("correct_square.wav"),
+        sound_incorrect = rl.LoadSound("sound_incorrect.wav"),
     }
 
     end_state := EndState{}
