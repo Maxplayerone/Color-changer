@@ -52,6 +52,7 @@ main :: proc(){
         miliseconds = 60,
         square_correct = rl.LoadSound("correct_square.wav"),
         sound_incorrect = rl.LoadSound("sound_incorrect.wav"),
+        lives = 3,
     }
 
     end_state := EndState{}
@@ -68,7 +69,7 @@ main :: proc(){
             case .Game:
                 game_state = game_state_update(game_state)
 
-                if game_state.seconds < 0{
+                if game_state_end(game_state){
                     cur_state = CurState.End
                     end_state = end_state_create(game_state.score)
                 }

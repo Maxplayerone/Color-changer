@@ -18,6 +18,7 @@ GameState :: struct{
     seconds: int,
     miliseconds: int,
     score: int,
+    lives: int,
 
     square_correct: rl.Sound,
     sound_incorrect: rl.Sound,
@@ -35,6 +36,7 @@ game_state_update :: proc(gstate: GameState) -> GameState{
         }
         else if rl.IsKeyPressed(.D) && gstate.selected_square != 0{
             rl.PlaySound(gstate.sound_incorrect)
+            gstate.lives -= 1
         }
 
         if rl.IsKeyPressed(.F) && gstate.selected_square == 1{
@@ -45,6 +47,7 @@ game_state_update :: proc(gstate: GameState) -> GameState{
         }
         else if rl.IsKeyPressed(.F) && gstate.selected_square != 1{
             rl.PlaySound(gstate.sound_incorrect)
+            gstate.lives -= 1
         }
 
         if rl.IsKeyPressed(.J) && gstate.selected_square == 2{
@@ -55,6 +58,7 @@ game_state_update :: proc(gstate: GameState) -> GameState{
         }
         else if rl.IsKeyPressed(.J) && gstate.selected_square != 2{
             rl.PlaySound(gstate.sound_incorrect)
+            gstate.lives -= 1
         }
 
         if rl.IsKeyPressed(.K) && gstate.selected_square == 3{
@@ -65,6 +69,7 @@ game_state_update :: proc(gstate: GameState) -> GameState{
         }
         else if rl.IsKeyPressed(.K) && gstate.selected_square != 3{
             rl.PlaySound(gstate.sound_incorrect)
+            gstate.lives -= 1
         }
 
         gstate.miliseconds -= 1
@@ -104,8 +109,15 @@ game_state_render :: proc(gstate: GameState){
             strings.write_bytes(&time, buf[0:2])
         }
 
-        rl.DrawText(strings.clone_to_cstring(strings.to_string(time)), WIDTH / 2 - 100, HEIGHT / 2 - 200, 80, rl.BLACK)
-        rl.DrawText(strings.clone_to_cstring(strings.to_string(score_text)),WIDTH / 2 - 80, HEIGHT / 2 - 120, 40, rl.BLACK)
+	    buf2: [4]byte
+        lives := strings.builder_make()
+        strings.write_string(&lives, "lives: ")
+        strconv.itoa(buf2[:], gstate.lives)
+        strings.write_bytes(&lives, buf2[:])
+
+        rl.DrawText(strings.clone_to_cstring(strings.to_string(time)), WIDTH / 2 - 100, HEIGHT / 2 - 300, 80, rl.BLACK)
+        rl.DrawText(strings.clone_to_cstring(strings.to_string(score_text)),WIDTH / 2 - 80, HEIGHT / 2 - 220, 40, rl.BLACK)
+        rl.DrawText(strings.clone_to_cstring(strings.to_string(lives)),WIDTH / 2 - 70, HEIGHT / 2 - 170, 40, rl.BLACK)
 
         empty_void := gstate.empty_void
         square_size := gstate.square_size
@@ -131,4 +143,11 @@ game_state_render :: proc(gstate: GameState){
                     rl.DrawText("K", i32(i + 1) * empty_void + i32(i) * square_size + square_size / 2, HEIGHT - 250 + square_size / 2, 40, color)
             }
         }
+}
+
+game_state_end :: proc(gstate: GameState) -> bool{
+    if gstate.seconds < 1 || gstate.lives < 1{
+        return true
+    }
+    return false
 }
