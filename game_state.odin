@@ -80,10 +80,12 @@ game_state_update :: proc(gstate: GameState) -> GameState{
             gstate.lives -= 1
         }
 
-        gstate.miliseconds -= 1
-        if gstate.miliseconds == 0{
-            gstate.miliseconds = 60
-            gstate.seconds -= 1 
+        if gstate.show_timer{
+            gstate.miliseconds -= 1
+            if gstate.miliseconds == 0{
+                gstate.miliseconds = 60
+                gstate.seconds -= 1 
+            }
         }
 
     return gstate
@@ -138,7 +140,7 @@ game_state_render :: proc(gstate: GameState){
                 rl.DrawRectangle(i32(i + 1) * empty_void + i32(i) * square_size, HEIGHT - 250, square_size, square_size, gstate.color_on)
                 color = rl.WHITE
             }
-            else if gstate.next_node == i{
+            else if gstate.next_node == i && gstate.show_next_node{
                 rl.DrawRectangle(i32(i + 1) * empty_void + i32(i) * square_size, HEIGHT - 250, square_size, square_size, {gstate.color_on.r, gstate.color_on.g, gstate.color_on.b, 50})   
                 color = rl.BLACK
             }

@@ -33,13 +33,15 @@ menu_state_update :: proc(mstate: MenuState) -> MenuState{
         mstate.draw_rect = false
     }
 
+    if rl.IsKeyPressed(.ENTER){
+        mstate.play = true
+    }
+
     if rl.IsKeyPressed(.ONE){
         mstate.add_timer = !mstate.add_timer 
-        fmt.println("Add timer: ", mstate.add_timer)
     }
     if rl.IsKeyPressed(.TWO){
         mstate.show_next_node = !mstate.show_next_node
-        fmt.println("Show next node: ", mstate.show_next_node)
     }
     return mstate
 }
@@ -49,5 +51,21 @@ menu_state_render :: proc(mstate: MenuState){
         rl.DrawRectangleRec(mstate.play_rect, rl.Color{0, 0, 0, 75})
     }
     rl.DrawText("PLAY", i32(mstate.play_rect.x + 5), i32(mstate.play_rect.y), 70, rl.BLACK)
+    rl.DrawText("Show Timer: ", i32(mstate.play_rect.x - 75), i32(mstate.play_rect.y + 100), 50, rl.BLACK)
+
+    if !mstate.add_timer{
+        rl.DrawText("OFF", i32(mstate.play_rect.x + 230), i32(mstate.play_rect.y + 100), 50, {255, 153, 128, 255})
+    }
+    else{
+        rl.DrawText("ON", i32(mstate.play_rect.x + 230), i32(mstate.play_rect.y + 100), 50, {108, 235, 112, 255})
+    }
+
+    rl.DrawText("Show next node: ", i32(mstate.play_rect.x - 140), i32(mstate.play_rect.y + 175), 50, rl.BLACK)
+    if !mstate.show_next_node{
+        rl.DrawText("OFF", i32(mstate.play_rect.x + 280), i32(mstate.play_rect.y + 175), 50, {255, 153, 128, 255})
+    }
+    else{
+        rl.DrawText("ON", i32(mstate.play_rect.x + 280), i32(mstate.play_rect.y + 175), 50, {108, 235, 112, 255})
+    }
 }
 

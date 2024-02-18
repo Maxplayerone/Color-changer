@@ -28,12 +28,8 @@ trim_not_number :: proc(buf: []byte) -> []byte{
 }
 
 atoi_buf :: proc(buf: []byte) -> int{
-    num := 0
-    for n, i in buf{
-        num += int(n) + i * 10
-    }
-
-    return num
+    len := len(buf) - 1
+    return int(buf[len] - 48) + len * 10
 }
 
 main :: proc(){
@@ -61,6 +57,7 @@ main :: proc(){
 
     menu_state := MenuState{
         play_rect = rl.Rectangle{WIDTH / 2 - 100, HEIGHT / 2 - 150, 200, 80},
+        add_timer = true,
     }
 
     cur_state := CurState.Menu
