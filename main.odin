@@ -13,6 +13,7 @@ HEIGHT :: 720
 CurState :: enum{
     Game,
     End,
+    Menu,
 }
 
 trim_not_number :: proc(buf: []byte) -> []byte{
@@ -57,7 +58,11 @@ main :: proc(){
 
     end_state := EndState{}
 
-    cur_state := CurState.Game
+    menu_state := MenuState{
+        play_rect = rl.Rectangle{WIDTH / 2 - 100, HEIGHT / 2 - 150, 200, 80},
+    }
+
+    cur_state := CurState.Menu
     for !rl.WindowShouldClose(){
         rl.BeginDrawing()
         defer rl.EndDrawing()
@@ -74,6 +79,12 @@ main :: proc(){
                     end_state = end_state_create(game_state.score)
                 }
             case .End:
+            case .Menu:
+                menu_state = menu_state_update(menu_state)
+
+                if menu_state.play{
+                    cur_state = CurState.Game
+                }
         }
 
 
@@ -83,6 +94,8 @@ main :: proc(){
                 game_state_render(game_state)
             case .End:
                 end_state_render(end_state)
+            case .Menu:
+                menu_state_render(menu_state)
         }
     }
 
