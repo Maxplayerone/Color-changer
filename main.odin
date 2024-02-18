@@ -46,6 +46,7 @@ main :: proc(){
         color_on = rl.LIME,
         color_off = rl.BLACK,
         selected_square = int(rand.int31_max(4)),
+        next_node = int(rand.int31_max(4)),
         score = 0,
         square_size = 100,
         empty_void = (WIDTH - (4 * 100)) / 5,
