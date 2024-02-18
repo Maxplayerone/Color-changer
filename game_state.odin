@@ -22,6 +22,9 @@ GameState :: struct{
 
     square_correct: rl.Sound,
     sound_incorrect: rl.Sound,
+
+    show_timer: bool,
+    show_next_node: bool,
 }
 
 game_state_update :: proc(gstate: GameState) -> GameState{
@@ -115,7 +118,9 @@ game_state_render :: proc(gstate: GameState){
         strconv.itoa(buf2[:], gstate.lives)
         strings.write_bytes(&lives, buf2[:])
 
-        rl.DrawText(strings.clone_to_cstring(strings.to_string(time)), WIDTH / 2 - 100, HEIGHT / 2 - 300, 80, rl.BLACK)
+        if gstate.show_timer{
+            rl.DrawText(strings.clone_to_cstring(strings.to_string(time)), WIDTH / 2 - 100, HEIGHT / 2 - 300, 80, rl.BLACK)
+        }
         rl.DrawText(strings.clone_to_cstring(strings.to_string(score_text)),WIDTH / 2 - 80, HEIGHT / 2 - 220, 40, rl.BLACK)
         rl.DrawText(strings.clone_to_cstring(strings.to_string(lives)),WIDTH / 2 - 70, HEIGHT / 2 - 170, 40, rl.BLACK)
 

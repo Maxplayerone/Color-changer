@@ -2,11 +2,13 @@ package main
 
 import rl "vendor:raylib"
 
+import "core:fmt"
+
 MenuState :: struct{
     play_rect: rl.Rectangle,
     draw_rect: bool,
     play: bool,
-    
+
     add_timer: bool,
     show_next_node: bool,
 }
@@ -29,6 +31,15 @@ menu_state_update :: proc(mstate: MenuState) -> MenuState{
     }
     else{
         mstate.draw_rect = false
+    }
+
+    if rl.IsKeyPressed(.ONE){
+        mstate.add_timer = !mstate.add_timer 
+        fmt.println("Add timer: ", mstate.add_timer)
+    }
+    if rl.IsKeyPressed(.TWO){
+        mstate.show_next_node = !mstate.show_next_node
+        fmt.println("Show next node: ", mstate.show_next_node)
     }
     return mstate
 }

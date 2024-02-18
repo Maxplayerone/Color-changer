@@ -84,6 +84,9 @@ main :: proc(){
 
                 if menu_state.play{
                     cur_state = CurState.Game
+
+                    game_state.show_timer = menu_state.add_timer
+                    game_state.show_next_node = menu_state.show_next_node
                 }
         }
 
